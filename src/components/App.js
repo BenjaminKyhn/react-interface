@@ -13,7 +13,8 @@ class App extends Component {
             formDisplay: false,
             lastIndex: 0,
             orderBy: 'petName',
-            orderDir: 'asc'
+            orderDir: 'asc',
+            queryText: '',
         }
         this.deleteAppointment = this.deleteAppointment.bind(this);
         this.toggleForm = this.toggleForm.bind(this);
@@ -76,12 +77,24 @@ class App extends Component {
             order = -1;
         }
 
-        filteredApts.sort((a, b) => {
+        filteredApts = filteredApts.sort((a, b) => {
             if (a[this.state.orderBy].toLowerCase() < b[this.state.orderBy].toLowerCase()) {
                 return -1 * order;
             } else {
                 return 1 * order;
             }
+        }).filter(eachItem => {
+            return (
+                eachItem['petName']
+                    .toLowerCase()
+                    .includes(this.state.queryText.toLowerCase()) ||
+                eachItem['ownerName']
+                    .toLowerCase()
+                    .includes(this.state.queryText.toLowerCase()) ||
+                eachItem['aptNotes']
+                    .toLowerCase()
+                    .includes(this.state.queryText.toLowerCase())
+            )
         })
 
         return (
