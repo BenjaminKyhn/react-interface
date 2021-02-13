@@ -10,12 +10,13 @@ class App extends Component {
         super();
         this.state = {
             myAppointments: [],
+            formDisplay: false,
             lastIndex: 0,
         }
         this.deleteAppointment = this.deleteAppointment.bind(this);
     }
 
-    deleteAppointment(apt){
+    deleteAppointment(apt) {
         let tempApts = this.state.myAppointments;
         tempApts = without(tempApts, apt);
         this.setState({
@@ -29,7 +30,7 @@ class App extends Component {
             .then(result => {
                 const appointments = result.map(item => {
                     item.aptId = this.state.lastIndex;
-                    this.setState({lastIndex: this.state.lastIndex+1})
+                    this.setState({lastIndex: this.state.lastIndex + 1})
                     return item;
                 })
                 this.setState({
@@ -46,9 +47,14 @@ class App extends Component {
                     <div className="row">
                         <div className="col-md-12 bg-white">
                             <div className="container">
-                                <AddAppointments/>
+                                <AddAppointments
+                                    formDisplay={this.state.formDisplay}
+                                />
                                 <SearchAppointments/>
-                                <ListAppointments appointments={this.state.myAppointments} deleteAppointment={this.deleteAppointment}/>
+                                <ListAppointments
+                                    appointments={this.state.myAppointments}
+                                    deleteAppointment={this.deleteAppointment}
+                                />
                             </div>
                         </div>
                     </div>
